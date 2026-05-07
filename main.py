@@ -12,10 +12,17 @@ if choice == "1":
     server.bind((ip, 9999))
     server.listen()
     client, _ = server.accept()
+    client.send(pub.save_pkcs1())
+    partner_pub_pem = client.recv(1024)
+    partner_pub = rsa.PublicKey.load_pkcs1(partner_pub_pem)
 elif choice == "2":
+    pub, priv = rsa.newkeys(512)
     ip = input("Enter server IP: ")
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect((ip, 9999))
+    partner_pub_pem = client.recv(1024)
+    partner_pub = rsa.PublicKey.load_pkcs1(partner_pub_pem)
+    client.send(pub.save_pkcs1())
 else: 
     exit()
  
