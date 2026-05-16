@@ -7,10 +7,10 @@ import rsa
 choice = input("Do you want to host (1) or to connect (2): ")
 
 if choice == "1":
-    ip = input("Enter your IP address: ")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind((ip, 9999))
+    server.bind(("192.168.56.1",9999))
     server.listen()
+
     client, _ = server.accept()
     client.send(pub.save_pkcs1())
     partner_pub_pem = client.recv(1024)
@@ -36,5 +36,5 @@ def receiving_messages(c):
     while True:
         print("Partner: "+c.recv(1024).decode())
 
-threading.Thread(target=sending_messages, args=(client,)).start()
-threading.Thread(target=receiving_messages, args=(client,)).start()
+threading.Thread(target=sending_messages, args=(client))
+threading.Thread(target=receiving_messages, args=(client))
