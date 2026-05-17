@@ -15,20 +15,20 @@ A peer-to-peer terminal chat application with end-to-end RSA encryption built us
 ## Wireshark Verification
 Captured the same conversation twice — once without encryption and once with — to confirm that RSA ciphertext is unreadable over the wire compared to plaintext.
 
-**Chat messages used in both tests:**
+### 1. Both sides of the chat — host and client exchanging messages used in the Wireshark capture
+<img alt="terminal_chat_both_sides" src="screenshots/terminal_chat_both_sides.png" />
 
-![Terminal chat](screenshots/Screenshot_2026-05-17_104444.png)
+### 2. Without encryption — the full message `"I like playing volleyball, even though I suck at it"` is readable as plaintext directly in the Wireshark packet
+<img alt="wireshark_plaintext_packet1" src="screenshots/wireshark_plaintext_packet1.png" />
 
-**Without encryption — message content fully visible in the packet:**
+### 3. Without encryption — the second message `"My secret is that I hate lemons, but I am afraid to admit that."` also fully exposed in the packet data
+<img alt="wireshark_plaintext_packet2" src="screenshots/wireshark_plaintext_packet2.png" />
 
-![Plaintext packet 1](screenshots/Screenshot_2026-05-17_104044.png)
-![Plaintext packet 2](screenshots/Screenshot_2026-05-17_104107.png)
+### 4. Code change made to demonstrate the unencrypted version — RSA encrypt/decrypt calls commented out and replaced with raw `send`/`recv`
+<img alt="code_encryption_disabled" src="screenshots/code_encryption_disabled.png" />
 
-**Code change made to disable encryption for the demo:**
+### 5. With RSA encryption enabled — the same message is now 128 bytes of unreadable ciphertext, no plaintext visible anywhere in the packet
+<img alt="wireshark_encrypted_packet1" src="screenshots/wireshark_encrypted_packet1.png" />
 
-![Code with encryption commented out](screenshots/Screenshot_2026-05-17_104213.png)
-
-**With RSA encryption — 128 bytes of unreadable ciphertext:**
-
-![Encrypted packet 1](screenshots/Screenshot_2026-05-17_105219.png)
-![Encrypted packet 2](screenshots/Screenshot_2026-05-17_105231.png)
+### 6. With RSA encryption enabled — second message also fully hidden, fixed 128-byte ciphertext block regardless of original message length
+<img alt="wireshark_encrypted_packet2" src="screenshots/wireshark_encrypted_packet2.png" />
