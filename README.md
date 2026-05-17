@@ -1,2 +1,0 @@
-# Encryption Chat in Python
-

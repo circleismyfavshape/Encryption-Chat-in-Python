@@ -28,11 +28,13 @@ def sending_messages(c):
     while True:
         message = input("")
         c.send (rsa.encrypt(message.encode(), public_partner))
+        #c.send(message.encode())
         print("You: "+ message)
 
 def receiving_messages(c):
     while True:
         print("Partner: " + rsa.decrypt(c.recv(1024), private_key).decode())
+        #print("Partner: " + c.recv(1024).decode())
 
 threading.Thread(target=sending_messages, args=(client,)).start()
 threading.Thread(target=receiving_messages, args=(client,)).start()
